@@ -1,0 +1,31 @@
+{
+    "configurations": [
+        {
+            "name": "PyTest Debug",
+            "type": "python",
+            "request": "launch",
+            "stopOnEntry": false,
+            "module": "pytest",
+            "args": [
+                "-v"
+            ],
+            "cwd": "${workspaceRoot}",
+            "env": {},
+            "envFile": "${workspaceRoot}/.env",
+            "justMyCode": false
+        },
+        {
+            "name": "Django Debug",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "runserver",
+                "localhost:8000",
+            ],
+            "django": true,
+            "justMyCode": false
+        },
+        
+    ]
+}

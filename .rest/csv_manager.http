@@ -1,0 +1,39 @@
+###
+# @name get-csv-files
+GET {{base_url}}/csv-manager/
+# ?limit=2
+# &offset=2
+# &is_store=true
+# &ordering=-created_at
+
+###
+# @name create-csv-file
+POST {{base_url}}/csv-manager/
+Content-Type: multipart/form-data; boundary=MyBoundary
+
+--MyBoundary
+Content-Disposition: form-data; name="file"; filename="FL_insurance_sample2.csv"
+Content-Type: application/octet-stream
+
+< ./samples_csv/FL_insurance_sample.csv
+--MyBoundary
+Content-Disposition: form-data; name="ProspectId"
+
+1
+--MyBoundary--
+
+###
+# @name retrieve-csv-file
+GET {{base_url}}/csv-manager/1/
+
+###
+# @name patch-csv-file
+PATCH {{base_url}}/csv-manager/1/
+
+{
+    "is_store": true
+}
+
+###
+# @name delete-csv-file
+DELETE {{base_url}}/csv-manager/2/
