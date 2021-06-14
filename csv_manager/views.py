@@ -28,7 +28,7 @@ class CSVFilesListCreate(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        utils.create_table(df_csv)
+        utils.ExternalDBStore(df_csv=df_csv).start()
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )

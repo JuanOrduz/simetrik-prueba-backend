@@ -1,3 +1,4 @@
+import threading
 import pandas as pd
 
 from sqlalchemy import Table, Column, Integer, String, MetaData, desc
@@ -27,10 +28,10 @@ def retrieve_data(table_name: str, order_by: str = "id", filters: dict = {}):
     table = Table(table_name, meta, autoload=True, autoload_with=db.engine)
     filters_set = []
     result = []
-    
+
     for column_name, value in filters.items():
         filters_set.append(getattr(table.columns, column_name) == value)
-    
+
     with db.engine.connect() as conn:
         result = conn.execute(
             select(table)
@@ -38,3 +39,12 @@ def retrieve_data(table_name: str, order_by: str = "id", filters: dict = {}):
             .order_by(desc(order_by[1:]) if order_by[0] == "-" else order_by)
         ).fetchall()
     return result
+
+
+class ExternalDBStore(threading.Thread):
+    def __init__(self, df_csv):
+        self.df_csv = df_csv
+        threading.Thread.__init__(self)
+
+    def run(self):
+        create_table(self.df_csv)
