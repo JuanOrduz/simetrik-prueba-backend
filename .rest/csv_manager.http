@@ -12,10 +12,10 @@ POST {{base_url}}/csv-manager/
 Content-Type: multipart/form-data; boundary=MyBoundary
 
 --MyBoundary
-Content-Disposition: form-data; name="file"; filename="FL_insurance_sample2.csv"
+Content-Disposition: form-data; name="file"; filename="SalesJan2009.csv"
 Content-Type: application/octet-stream
 
-< ./samples_csv/FL_insurance_sample.csv
+< ./samples_csv/SalesJan2009.csv
 --MyBoundary
 Content-Disposition: form-data; name="ProspectId"
 
@@ -37,3 +37,13 @@ PATCH {{base_url}}/csv-manager/1/
 ###
 # @name delete-csv-file
 DELETE {{base_url}}/csv-manager/2/
+
+###
+# @name read-csv-data
+GET {{base_url}}/csv-manager/data/SalesJan2009/
+# ?limit=40
+# &offset=80
+# ?ordering=-id
+# &Price=1200
+# ?Price=1200
+# ?Name=pamela

@@ -9,4 +9,9 @@ urlpatterns = [
         views.CSVFilesRetrieveUpdateDestroyView.as_view(),
         name="csv-files-retrieve-update-destroy",
     ),
+    path(
+        "data/<str:pk>/",
+        views.CSVDataListView.as_view(),
+        name="csv-data-list",
+    ),
 ]

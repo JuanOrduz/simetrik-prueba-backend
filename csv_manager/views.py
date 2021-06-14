@@ -1,3 +1,4 @@
+import copy
 import pandas as pd
 
 from rest_framework import generics, status
@@ -32,9 +33,34 @@ class CSVFilesListCreate(generics.ListCreateAPIView):
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
 
-        # return Response("Ok", status=status.HTTP_201_CREATED)
-
 
 class CSVFilesRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.CSVFiles.objects.all()
     serializer_class = serializers.CSVFilesSerializer
+
+
+class CSVDataListView(generics.ListAPIView):
+    def get_filtered_queryset(self):
+        table_name = self.kwargs["pk"]
+        ordering = "id"
+        query_params = copy.deepcopy(self.request.query_params)
+
+        if "limit" in query_params:
+            del query_params["limit"]
+        if "offset" in query_params:
+            del query_params["offset"]
+        if "ordering" in query_params:
+            ordering = query_params["ordering"]
+            del query_params["ordering"]
+        return utils.retrieve_data(
+            table_name=table_name, order_by=ordering, filters=query_params
+        )
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_filtered_queryset()
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            return self.get_paginated_response(page)
+
+        return Response(queryset)

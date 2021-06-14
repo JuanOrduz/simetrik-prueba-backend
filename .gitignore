@@ -236,3 +236,7 @@ samples_csv/*
 
 # Environment files
 .env
+
+# Local sqlite databases
+*.db
+*.sqlite3
