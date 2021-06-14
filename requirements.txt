@@ -5,3 +5,4 @@ pandas==1.2.4
 django-storages==1.11.1
 boto3==1.17.93
 SQLAlchemy==1.4.18
+pytest-django==4.4.0
